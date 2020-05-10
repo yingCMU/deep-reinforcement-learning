@@ -43,7 +43,7 @@ class Agent():
         self.memory = ReplayBuffer(action_size, BUFFER_SIZE, BATCH_SIZE, seed)
         # Initialize time step (for updating every UPDATE_EVERY steps)
         self.t_step = 0
-        self.criterion = torch.nn.CrossEntropyLoss()
+        self.criterion = torch.nn.MSELoss()
 
     def step(self, state, action, reward, next_state, done):
         # Save experience in replay memory
@@ -67,10 +67,8 @@ class Agent():
         """
         state = torch.from_numpy(state).float().unsqueeze(0).to(device)
         self.qnetwork_local.eval()
-        print('test')
         with torch.no_grad():
             action_values = self.qnetwork_local(state)
-            print('action_values', action_values)
         self.qnetwork_local.train()
 
         # Epsilon-greedy action selection
@@ -96,13 +94,25 @@ class Agent():
         # train the model #
         ###################
         # clear the gradients of all optimized variables
-        self.optimizer.zero_grad()
         # forward pass: compute predicted outputs by passing inputs to the model
 #         (states, actions, rewards, next_states, dones)
-        targets = rewards + gamma * self.qnetwork_target(next_states)
-        predicted_states_value = self.qnetwork_local(states)
+        with torch.no_grad():
+            all_next_states_values = self.qnetwork_target(next_states)
+            max_next_state_value, max_next_state_value_idx =  torch.max(all_next_states_values, 1)
+            max_next_state_value = torch.reshape(max_next_state_value, (-1,1))
+            targets = rewards + gamma * max_next_state_value
+
+        all_predicted_states_values = self.qnetwork_local(states)
+#         print('all_predicted_states_values', all_predicted_states_values.size(), all_predicted_states_values)
+        reshaped_actions = torch.reshape(actions, (1,-1))
+        current_action_predicted_value = all_predicted_states_values[torch.arange(all_predicted_states_values.size(0)).long(), reshaped_actions]
+        current_action_predicted_value = torch.reshape(current_action_predicted_value, (-1,1))
+#         print('current_action_predicted_value size: ', current_action_predicted_value.size(), current_action_predicted_value)
+#         print('targets size: ', targets.size())
+
         # calculate the loss
-        loss = self.criterion(predicted_states_value, targets)
+        loss = self.criterion(current_action_predicted_value, targets)
+        self.optimizer.zero_grad()
         # backward pass: compute gradient of the loss with respect to model parameters
         loss.backward()
         # perform a single optimization step (parameter update)
@@ -110,12 +120,11 @@ class Agent():
         # update running training loss
         train_loss = loss.item()
 
-        if random() < 0.1:
-            print('Epoch: {} \tTraining Loss: {:.6f}'.format(
-            0,
-            train_loss
-            ))
-
+# rewards size:  torch.Size([64, 1])
+# next_states size:  torch.Size([64, 8])
+# next_states_value size:  torch.Size([64, 4])
+# predicted_states_value size:  torch.Size([64, 4])
+# targets size:  torch.Size([64, 4])
         # ------------------- update target network ------------------- #
         self.soft_update(self.qnetwork_local, self.qnetwork_target, TAU)
 
