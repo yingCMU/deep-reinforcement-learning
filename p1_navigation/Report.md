@@ -1,5 +1,5 @@
 ## DQN Implementation
-Open the file named Navigation.ipynb to see codes and outputs.
+Open the file named [Navigation.ipynb](./Navigation.ipynb) to see codes and outputs.
 
 It uses a simple DQN algorithm including:
 TD learning: with every action take given a state, use the reward and value estimation of next state to estimate current state's value. Future reward is discounted by GAMMA=0.99 per timestep.
