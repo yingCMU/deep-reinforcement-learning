@@ -16,7 +16,7 @@ TD learning: with every action take given a state, use the reward and value esti
 ![alt text](./episode_plot.png)
 
 
-- The file named checkpoint1.pth in this repo saved model weights of successful trained agent.
+- The file named [checkpoint1.pth](./heckpoint1.pth) in this repo saved model weights of successful trained agent.
 
 
 ## Future improvements
