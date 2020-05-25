@@ -1,7 +1,3 @@
-# TODO
-1. The submission includes the saved model weights of the successful agent.
-2. 	 A plot of rewards per episode is included to illustrate that either:
-
 ## Implementation
 An DDPG RL agent is implemented to solve the continous environment.
 It is an actor-critic approach where:
