@@ -39,9 +39,15 @@ input layer: 33(state size) => 256
 output layer: 256 => 4 (action size)
 ```
 ## Results
-It took around 300 episodes to solve the environments. This 300 is used for traininging, I also used another 100 episodes to verify it solves the environemnt. This is the plot for the 100 verification episodes. I also stopped adding random noise to actor policy towards the end to increase exploitation.
+It took 511 episodes to train the agent to reach score over 30 .I also used another 101 episodes to verify it solves the environemnt.
+- I splitted training into 3 phases, this is because training takes so long and I can't finish training within one try. SO I loaded checkpoint from last phase to resume training. Here is the plot for three phases:
+![alt text](./plot_1.png)
+![alt text](./plot_2.png)
+![alt text](./plot_3.png)
 
-![alt text](./plot.png)
+- This is the plot for the 100 verification episodes.
+
+![alt text](./plot_verify.png)
 
 NOTE: I resumed training so this plot only does not include the initial learning (from reward 0).
 
@@ -51,4 +57,5 @@ In this folder, you can find the saved actor and critic checkpoints as well:
 
 ## Ideas for Future Work
 1. implementat batch nomalization as in the original paper
-2. currently the 20-agents environment is updated once at every timestep though 20 experience are collected, increasing the number of updates at each timestep may achieve better results.
+2. add drop out to reduce overfitting
+3. implement [D4PG](https://openreview.net/forum?id=SyZipzbCb) algorithm
