@@ -1,3 +1,14 @@
+## Review Suggestions
+- The recent achievement of the Open AI group to play [Dota 2](https://openai.com/blog/dota-2/) using Reinforcement Learning is a must read
+- An effective way to improve the performance of DDPG is by using Prioritized Experience Replay. You should check this github [repo](https://github.com/rlcode/per) for a fast implementation of Prioritized Experience Replay using a special data structure Sum Tree.
+
+Below is a comparison of DDPG with random sampling vs DDPG with PER for the Reacher environment. It's quite evident how episode variation decreased and performance improved.
+
+- Following posts give an insight into some other reinforcement learning algorithms that can be used to solve the environment.
+
+- [Proximal Policy Optimization by Open AI](https://openai.com/blog/openai-baselines-ppo/)
+- [Introduction to Various Reinforcement Learning Algorithms. Part II (TRPO, PPO)](https://towardsdatascience.com/introduction-to-various-reinforcement-learning-algorithms-part-ii-trpo-ppo-87f2c5919bb9)
+
 ## Implementation
 An DDPG RL agent is implemented to solve the continous environment.
 It is an actor-critic approach where:
