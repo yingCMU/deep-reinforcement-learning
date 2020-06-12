@@ -4,6 +4,14 @@ For this Lab, you will train an agent to solve the Physical Deception problem.
 # Goal of the environment
 Blue dots are the "good agents", and the Red dot is an "adversary". All of the agents' goals are to go near the green target. The blue agents know which one is green, but the Red agent is color-blind and does not know which target is green/black! The optimal solution is for the red agent to chase one of the blue agent, and for the blue agents to split up and go toward each of the target.
 
+## Physical deception.
+Here, N agents cooperate to reach a single target landmark from a total of N
+landmarks. They are rewarded based on the minimum distance of any agent to the target (so only one
+agent needs to reach the target landmark). However, a lone adversary also desires to reach the target
+landmark; the catch is that the adversary does not know which of the landmarks is the correct one.
+Thus the cooperating agents, who are penalized based on the adversary distance to the target, learn to
+spread out and cover all landmarks so as to deceive the adversary
+
 # Running within the workspace ( Recommended Option)
 No explicit setup commands need to run by you, we have taken care of all the installations in this lab, enjoy exploration.
 ./run_training.sh Let's you run the program based on the parameters provided in the main program.
